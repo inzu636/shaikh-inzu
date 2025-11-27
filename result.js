@@ -1,3 +1,4 @@
+
 // ---------------------------------------
 // Firebase Imports (Correct for your CDN)
 // ---------------------------------------
@@ -38,13 +39,13 @@ const BAZARS = [
   { id:'khaja_garib_nawaz', name:'KHAJA GARIB NAWAZ', open:'10:30' },
   { id:'dehli_baba', name:'DEHLI BABA', open:'11:45' },
   { id:'azmer_sharif', name:'AZMER SHARIF', open:'12:30' },
-  { id:'baba_ka_gali', name:'BABA KA GALI', open:'13:30' },
-  { id:'dehli_nor_yalai', name:'DEHLI NOR YALAI', open:'18:30' },
-  { id:'noida_bazar', name:'NOIDA BAZAR', open:'16:30' },
+  { id:'baba_ka_gali', name:'BABA KA GALI', open:'01:30' },
+  { id:'dehli_nor_yalai', name:'DEHLI NOR YALAI', open:'06:30' },
+  { id:'noida_bazar', name:'NOIDA BAZAR', open:'04:30' },
   { id:'ahmedabad_city', name:'AHMEDABAD CITY', open:'12:30' },
-  { id:'ram_mandir_5', name:'RAM MANDIR 5', open:'15:00' },
+  { id:'ram_mandir_5', name:'RAM MANDIR 5', open:'03:00' },
   { id:'east_dehli', name:'EAST DEHLI', open:'09:30' },
-  { id:'faridabad_baba', name:'FARIDABAD BABA', open:'11:00' }
+  { id:'faridabad_baba', name:'FARIDABAD BABA', open:'08:00' }
 ];
 
 
@@ -76,8 +77,8 @@ BAZARS.forEach(bazar => {
         <div class="bazar-times">Open: ${bazar.open}</div>
       </div>
       <div class="meta">
-        <div class="label">Opens In</div>
-        <div class="timer" id="timer-${bazar.id}">--:--:--</div>
+        
+        <div class="timer" id="timer-${bazar.id}"></div>
       </div>
     </div>
 
@@ -132,7 +133,7 @@ function setupTimer(bazar) {
     const m = Math.floor((d % 3600000) / 60000);
     const s = Math.floor((d % 60000) / 1000);
 
-    tEl.textContent = ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")};
+    tEl.textContent = `${String(h).padStart(2,"0")}:``${String(m).padStart(2,"0")}:``${String(s).padStart(2,"0")};`
   }, 1000);
 }
 
@@ -195,7 +196,7 @@ saveBtn?.addEventListener("click", async () => {
 
   for (let b of BAZARS) {
     const v = document.getElementById("edit-" + b.id).value.trim();
-    if (v !== "" && !/^\d{3}$/.test(v)) return alert("3 digits ONLY");
+    if (v !== "" && !/^\d{2}$/.test(v)) return alert("2 digits ONLY");
 
     updates["results/" + b.id] = {
       result: v || "--",
