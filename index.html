@@ -3,30 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Result Panel</title>
+    <title>StarBazar Result</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div class="box">
-        <h1>Today Result</h1>
-        <div id="result" class="result">Loading...</div>
+        <h2>StarBazar Result</h2>
+        <div id="result">Loading...</div>
     </div>
 
-<script type="module">
-    import { db } from "./firebase-config.js";
-    import { ref, onValue } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
-
-    const resultRef = ref(db, "game/result");
-
-    onValue(resultRef, (snapshot) => {
-        if (snapshot.exists()) {
-            document.getElementById("result").innerText = snapshot.val();
-        } else {
-            document.getElementById("result").innerText = "No result";
-        }
-    });
-</script>
+    <script type="module" src="result.js"></script>
 
 </body>
 </html>
