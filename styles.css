@@ -1,0 +1,25 @@
+:root{
+  --bg:#fff; --muted:#6b7280; --accent:#4da3ff; --card:#0b0b0b; --success:#ff8a3d;
+}
+*{box-sizing:border-box}
+body{margin:0;padding:18px;font-family:Inter,system-ui,Arial;background:var(--bg);color:#111}
+.wrap{max-width:980px;margin:0 auto;display:flex;flex-direction:column;gap:18px}
+.header{display:flex;gap:12px;align-items:center}
+.logo{width:56px;height:56px;border-radius:12px;background:#111;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700}
+.brand .title{font-weight:900;font-size:22px}
+.bazars{display:flex;flex-direction:column;gap:12px}
+.bazar-card{padding:12px;border-radius:12px;background:#111;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.bazar-info{display:flex;flex-direction:column;gap:6px}
+.bazar-name{font-weight:800}
+.bazar-times{font-size:13px;color:var(--muted)}
+.timer{font-family:monospace;background:transparent;padding:8px 10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06)}
+.result-box{min-width:120px;padding:12px 16px;border-radius:8px;background:#0b0b0b;font-weight:900;font-size:22px;display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.result-box.live{color:var(--success)}
+.instructions{padding:12px;border-radius:8px;background:#f3f4f6;color:var(--muted)}
+footer{padding:12px;color:var(--muted);text-align:center}
+.admin-panel{padding:12px;border-radius:8px;background:#0b1020;color:#fff;margin-top:14px}
+.hidden{display:none}
+#adminFields .admin-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
+#adminFields input{padding:8px;border-radius:6px;border:1px solid #333;background:#0f1724;color:#fff}
+#adminFields button{padding:8px;border-radius:6px;background:#4da3ff;border:none;color:#000;cursor:pointer}
+@media(min-width:720px){.bazars{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}}
