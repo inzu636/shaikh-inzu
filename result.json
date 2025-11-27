@@ -1,4 +1,15 @@
 {
-  "result": "000",
-  "note": "Local fallback file — Firebase will be used when present."
+  "results": {
+    "khaja_garib": { "result": "000", "updatedAt": "" },
+    "khaja_garib_nawaz": { "result": "000", "updatedAt": "" },
+    "dehli_baba": { "result": "000", "updatedAt": "" },
+    "azmer_sharif": { "result": "000", "updatedAt": "" },
+    "baba_ka_gali": { "result": "000", "updatedAt": "" },
+    "dehli_nor_yalai": { "result": "000", "updatedAt": "" },
+    "noida_bazar": { "result": "000", "updatedAt": "" },
+    "ahmedabad_city": { "result": "000", "updatedAt": "" },
+    "ram_mandir_5": { "result": "000", "updatedAt": "" },
+    "east_dehli": { "result": "000", "updatedAt": "" },
+    "faridabad_baba": { "result": "000", "updatedAt": "" }
+  }
 }
