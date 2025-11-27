@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="box">
+        <h1>Admin Panel</h1>
+        <input type="number" id="inp" maxlength="3" placeholder="Enter 3-digit result">
+        <button id="saveBtn">Save</button>
+        <p id="msg"></p>
+    </div>
+
+<script type="module">
+    import { db } from "./firebase-config.js";
+    import { ref, set } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+
+    document.getElementById("saveBtn").addEventListener("click", () => {
+        let val = document.getElementById("inp").value.trim();
+
+        if (val.length !== 3) {
+            document.getElementById("msg").innerText = "Enter exactly 3 digits!";
+            return;
+        }
+
+        const resultRef = ref(db, "game/result");
+        set(resultRef, val).then(() => {
+            document.getElementById("msg").innerText = "Result Updated!";
+        });
+    });
+</script>
+
+</body>
+</html>
