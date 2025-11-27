@@ -1,19 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="hi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StarBazar Result</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dream Satta Result — Multi Bazar</title>
+  <meta name="description" content="Live bazar result board — mobile-first. Admin updates results to Firebase."/>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div class="wrap">
+    <header class="header">
+      <div class="logo">⭐</div>
+      <div class="brand">
+        <div class="title">Dream Satta Result</div>
+        <div class="subtitle">Live Bazar Results — No Login</div>
+      </div>
+    </header>
 
-    <div class="box">
-        <h2>StarBazar Result</h2>
-        <div id="result">Loading...</div>
-    </div>
+    <main id="bazars" class="bazars"></main>
 
-    <script type="module" src="result.js"></script>
+    <section class="instructions">
+      <h3>How this works</h3>
+      <ul>
+        <li>Results are stored in Firebase Realtime Database and shown live.</li>
+        <li>Admin can update using secret URL: <code>?admin=Sonu0786</code> or admin key.</li>
+        <li>Admin input requires exactly <strong>3 digits</strong> (0–9).</li>
+      </ul>
+    </section>
 
+    <footer>© Result board — only information. No gambling affiliation.</footer>
+
+    <!-- Admin panel -->
+    <section id="admin-panel" class="hidden">
+      <div class="admin-panel">
+        <h3>Admin Panel</h3>
+        <p>Use secret URL <code>?admin=Sonu0786</code> or enter key below.</p>
+        <input id="adminKey" type="password" placeholder="Admin key">
+        <button id="unlockBtn">Unlock</button>
+
+        <div id="adminEditor" class="hidden">
+          <div id="adminFields"></div>
+          <div style="margin-top:10px">
+            <button id="saveBtn">Save Results</button>
+            <button id="unlockUrlBtn">Clear DB Lock (admin only)</button>
+          </div>
+          <p id="adminNote"></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Result JSON fallback (optional) -->
+  <script src="result.json" defer></script>
+
+  <!-- Module script that contains Firebase init + app logic -->
+  <script type="module" src="result.js"></script>
 </body>
 </html>
