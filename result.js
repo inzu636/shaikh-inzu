@@ -1,17 +1,15 @@
-// ==============================
-// result.js  (FINAL WORKING FILE)
-// ==============================
-
-// Firebase CDN imports
+// ---------------------------------------
+// Firebase Imports (Correct for your CDN)
+// ---------------------------------------
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import {
   getDatabase, ref, onValue, set, update, get, child
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
 
-// -------------------------------
-// YOUR FIREBASE CONFIG (UPDATED)
-// -------------------------------
+// ---------------------------------------
+// YOUR CORRECT FIREBASE CONFIG
+// ---------------------------------------
 const firebaseConfig = {
   apiKey: "AIzaSyBwqwNFAlRGPRRSPxLLSpryyDmpuCB6asc",
   authDomain: "inzu-dae68.firebaseapp.com",
@@ -23,18 +21,18 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const db  = getDatabase(app);
+const db = getDatabase(app);
 
 
-// -------------------------------
-// ADMIN SETTINGS
-// -------------------------------
+// ---------------------------------------
+// ADMIN KEY
+// ---------------------------------------
 const ADMIN_KEY = "Sonu0786";
 
 
-// -------------------------------
+// ---------------------------------------
 // MULTI BAZAR LIST
-// -------------------------------
+// ---------------------------------------
 const BAZARS = [
   { id:'khaja_garib', name:'KHAJA GARIB', open:'09:30' },
   { id:'khaja_garib_nawaz', name:'KHAJA GARIB NAWAZ', open:'10:30' },
@@ -50,22 +48,22 @@ const BAZARS = [
 ];
 
 
-// -------------------------------
-// DOM ELEMENTS
-// -------------------------------
+// ---------------------------------------
+// DOM
+// ---------------------------------------
 const bazarsContainer = document.getElementById("bazars");
-const adminPanel      = document.getElementById("admin-panel");
-const adminEditor     = document.getElementById("adminEditor");
-const adminFields     = document.getElementById("adminFields");
-const adminNote       = document.getElementById("adminNote");
-const unlockBtn       = document.getElementById("unlockBtn");
-const saveBtn         = document.getElementById("saveBtn");
-const unlockUrlBtn    = document.getElementById("unlockUrlBtn");
+const adminPanel     = document.getElementById("admin-panel");
+const adminEditor    = document.getElementById("adminEditor");
+const adminFields    = document.getElementById("adminFields");
+const adminNote      = document.getElementById("adminNote");
+const unlockBtn      = document.getElementById("unlockBtn");
+const saveBtn        = document.getElementById("saveBtn");
+const unlockUrlBtn   = document.getElementById("unlockUrlBtn");
 
 
-// -------------------------------
-// CREATE BAZAR CARDS + FIREBASE
-// -------------------------------
+// ---------------------------------------
+// CREATE BAZAR CARDS + REALTIME LISTENERS
+// ---------------------------------------
 BAZARS.forEach(bazar => {
   const card = document.createElement("article");
   card.className = "bazar-card";
@@ -91,133 +89,120 @@ BAZARS.forEach(bazar => {
 
   bazarsContainer.appendChild(card);
 
-  // REALTIME LISTENER
-  const dbRef = ref(db, "results/" + bazar.id);
-  onValue(dbRef, snapshot => {
-    const data = snapshot.val();
-    const resultEl = document.getElementById("result-" + bazar.id);
-    const saved = data?.result || "--";
-
-    resultEl.textContent = saved;
-    resultEl.setAttribute("data-result", saved);
+  // REALTIME DATABASE LISTENER
+  const rRef = ref(db, "results/" + bazar.id);
+  onValue(rRef, snap => {
+    const data = snap.val();
+    const result = data?.result || "--";
+    document.getElementById("result-" + bazar.id).textContent = result;
   });
 
   setupTimer(bazar);
 });
 
 
-// -------------------------------
-// TIMER FUNCTIONS
-// -------------------------------
+// ---------------------------------------
+// TIMER SYSTEM
+// ---------------------------------------
 function parseTime(t) {
   const [h, m] = t.split(":").map(Number);
   return { h, m };
 }
-function getNextTime(timeStr) {
-  const { h, m } = parseTime(timeStr);
+
+function nextTime(t) {
+  const { h, m } = parseTime(t);
   const now = new Date();
-  let next = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, 0);
-  if (next < now) next.setDate(next.getDate() + 1);
-  return next;
+  let x = new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m);
+  if (x < now) x.setDate(x.getDate() + 1);
+  return x;
 }
+
 function setupTimer(bazar) {
-  const timerEl = document.getElementById("timer-" + bazar.id);
-  const resultEl = document.getElementById("result-" + bazar.id);
-  let target = getNextTime(bazar.open);
+  const tEl = document.getElementById("timer-" + bazar.id);
+  let target = nextTime(bazar.open);
 
   setInterval(() => {
-    const now = new Date();
-    let diff = target - now;
-
-    if (diff <= 0) {
-      timerEl.textContent = "00:00:00";
-      resultEl.classList.add("live");
-      target = getNextTime(bazar.open);
-    } else {
-      resultEl.classList.remove("live");
-      const hr = Math.floor(diff / 3600000); diff %= 3600000;
-      const mn = Math.floor(diff / 60000);   diff %= 60000;
-      const sc = Math.floor(diff / 1000);
-
-      timerEl.textContent = ${pad(hr)}:${pad(mn)}:${pad(sc)};
+    const d = target - new Date();
+    if (d <= 0) {
+      tEl.textContent = "00:00:00";
+      target = nextTime(bazar.open);
+      return;
     }
+    const h = Math.floor(d / 3600000);
+    const m = Math.floor((d % 3600000) / 60000);
+    const s = Math.floor((d % 60000) / 1000);
+
+    tEl.textContent = ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")};
   }, 1000);
 }
-function pad(n) { return String(n).padStart(2, "0"); }
 
 
-// -------------------------------
-// ADMIN SECRET URL CHECK
-// -------------------------------
+// ---------------------------------------
+// ADMIN SECRET URL
+// ---------------------------------------
 (function () {
   const p = new URLSearchParams(location.search);
   if (p.get("admin") === ADMIN_KEY) {
     adminPanel.classList.remove("hidden");
     adminEditor.classList.remove("hidden");
-    adminNote.textContent = "Admin unlocked via secret URL.";
-    set(ref(db, "meta/locked"), false);
     loadAdminFields();
   }
 })();
 
 
-// -------------------------------
-// MANUAL UNLOCK BUTTON
-// -------------------------------
+// ---------------------------------------
+// ADMIN UNLOCK (manual)
+// ---------------------------------------
 unlockBtn?.addEventListener("click", () => {
-  const key = document.getElementById("adminKey").value.trim();
+  const key = document.getElementById("adminKey").value;
   if (key === ADMIN_KEY) {
-    adminPanel.classList.remove("hidden");
     adminEditor.classList.remove("hidden");
     loadAdminFields();
-  } else alert("Incorrect Admin Key");
+  } else {
+    alert("Incorrect Admin Key");
+  }
 });
 
 
-// -------------------------------
+// ---------------------------------------
 // LOAD ADMIN FIELDS
-// -------------------------------
+// ---------------------------------------
 async function loadAdminFields() {
-  adminFields.innerHTML = "Loading...";
-
   const snap = await get(ref(db, "results"));
-  const data = snap.exists() ? snap.val() : {};
+  const data = snap.val() || {};
 
   adminFields.innerHTML = "";
 
   BAZARS.forEach(b => {
-    const val = data[b.id]?.result || "";
-    adminFields.innerHTML += `
-      <div class="admin-row">
-        <label>${b.name}</label>
-        <input id="edit-${b.id}" maxlength="3" value="${val}" placeholder="123">
-      </div>
+    const v = data[b.id]?.result || "";
+
+    const row = document.createElement("div");
+    row.className = "admin-row";
+    row.innerHTML = `
+      <label>${b.name}</label>
+      <input id="edit-${b.id}" maxlength="3" value="${v}" placeholder="123">
     `;
+    adminFields.appendChild(row);
   });
 }
 
 
-// -------------------------------
-// SAVE BUTTON (FINAL)
-// -------------------------------
+// ---------------------------------------
+// SAVE RESULTS
+// ---------------------------------------
 saveBtn?.addEventListener("click", async () => {
   const updates = {};
-  let invalid = false;
 
-  BAZARS.forEach(b => {
+  for (let b of BAZARS) {
     const v = document.getElementById("edit-" + b.id).value.trim();
-    if (v !== "" && !/^\d{3}$/.test(v)) invalid = true;
+    if (v !== "" && !/^\d{3}$/.test(v)) return alert("3 digits ONLY");
 
     updates["results/" + b.id] = {
       result: v || "--",
       updatedAt: new Date().toISOString()
     };
-  });
-
-  if (invalid) return alert("Har result 3 digits ka hona chahiye (e.g. 123)");
+  }
 
   await update(ref(db), updates);
-  await set(ref(db, "meta/locked"), true);
-
-  alert("Results Updated Successfully!");
+  alert("All Results Updated!");
 });
