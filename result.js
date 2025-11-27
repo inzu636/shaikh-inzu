@@ -6,13 +6,15 @@ import {
 
 /* ---------- Paste your Firebase config here ---------- */
 const firebaseConfig = {
-  apiKey: "AIzaSyDs2053g6QCkdd04JQTZZjqqEgW2Ko7FeU",
-  authDomain: "sonu-256ed.firebaseapp.com",
-  projectId: "sonu-256ed",
-  storageBucket: "sonu-256ed.firebasestorage.app",
-  messagingSenderId: "925837320396",
-  appId: "1:925837320396:web:8822654baaf0fee89ea269"
+ apiKey: "AIzaSyDs2053g6QCkdd04JQTZZjqqEgW2Ko7FeU",
+    authDomain: "sonu-256ed.firebaseapp.com",
+    databaseURL: "https://inzu-aed4e-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "sonu-256ed",
+    storageBucket: "sonu-256ed.firebasestorage.app",
+    messagingSenderId: "925837320396",
+    appId: "1:925837320396:web:8822654baaf0fee89ea269"
   // Optional: add databaseURL: "https://<your-db>.firebaseio.com"
+  databaseURL:"https://inzu-dae68-default-rtdb.asia-southeast1.firebasedatabase.app/"
 };
 /* ---------------------------------------------------- */
 
@@ -233,3 +235,4 @@ onValue(ref(db, 'meta/locked'), snap => {
   const locked = snap.exists() ? !!snap.val() : false;
   if (adminNote) adminNote.textContent = locked ? 'DB is LOCKED.' : 'DB is UNLOCKED.';
 });
+
