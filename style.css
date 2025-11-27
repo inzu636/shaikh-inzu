@@ -1,42 +1,30 @@
 body {
-    background: #111;
-    color: #fff;
-    font-family: Arial;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: #fff;
+  font-family: Arial;
 }
 
 .box {
-    padding: 25px;
-    background: #1c1c1c;
-    border-radius: 10px;
-    text-align: center;
-    width: 300px;
+  margin: 120px auto;
+  width: 300px;
+  padding: 20px;
+  text-align: center;
+  border: 2px solid #444;
+  border-radius: 10px;
 }
 
-input {
-    width: 80%;
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 20px;
-    text-align: center;
-    border-radius: 5px;
-    outline: none;
+input, button {
+  width: 200px;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: none;
 }
 
 button {
-    padding: 10px 25px;
-    background: #00b7ff;
-    color: black;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.result {
-    font-size: 50px;
-    margin-top: 20px;
+  background: #00e676;
+  font-weight: bold;
+  cursor: pointer;
 }
